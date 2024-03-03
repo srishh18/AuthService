@@ -2,9 +2,7 @@ package com.srishti.authService.controllers;
 
 import com.srishti.authService.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -23,6 +21,13 @@ public class UserController {
             return "Error";
 
         }
+    }
+
+    @DeleteMapping("/user/{id}")
+    public String deleteUser(@PathVariable("id") Integer id){
+        String userServiceResponse = this.userService.deleteById();
+        return userServiceResponse;
+
     }
 
 

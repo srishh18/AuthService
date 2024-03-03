@@ -17,4 +17,10 @@ public class UserServiceImpl implements UserService{
         }
 
     }
+
+    @Override
+    public String deleteById(){
+        System.out.println("Deleted user");
+        return "";
+    }
 }
