@@ -8,7 +8,10 @@ public interface UserService {
 
     public List<User> getAllUsers();
 
-    public String deleteById();
+    public String deleteById(Integer id);
 
     public void UpdateUser(Integer id, User user);
+
+    public User addUser(User user);
+
 }

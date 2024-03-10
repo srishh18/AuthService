@@ -25,6 +25,20 @@ public class UserController {
         }
     }
 
+
+    @PostMapping("/user")
+    public User addUser(@RequestBody User user){
+        try {
+            User newUser = this.userService.addUser(user);
+            System.out.println(user);
+            return newUser;
+        }
+        catch(Exception e){
+            return user;
+        }
+
+    }
+
     @PutMapping("/user/{id}")
     public void updateUserDB(@PathVariable("id") Integer id, @RequestBody User user) {
         try {
@@ -38,8 +52,15 @@ public class UserController {
 
     @DeleteMapping("/user/{id}")
     public String deleteUser(@PathVariable("id") Integer id){
-        String userServiceResponse = this.userService.deleteById();
-        return userServiceResponse;
+
+        try{
+            String userServiceResponse = this.userService.deleteById(id);
+            return userServiceResponse;
+        }
+        catch(Exception e){
+            System.out.println("Cannot Delete the user");
+            return "";
+        }
 
     }
 

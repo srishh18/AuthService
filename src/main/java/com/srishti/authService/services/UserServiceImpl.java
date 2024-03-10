@@ -19,11 +19,13 @@ public class UserServiceImpl implements UserService{
         mockUserDB.addAll(
                 Arrays.asList(
                         new User[]{
-                                new User("Sristi", "overthinker420", "srishtinegi1718@gmail.com", "hairaanAatma69"),
+                                new User("Srishti", "overthinker420", "srishtinegi1718@gmail.com", "hairaanAatma69"),
                                 new User("Punit", "supersharma", "punit420@gmail.com", "hairaanAatma69")
                             }
                         )
         );
+        mockUserDB.get(0).setId(1);
+        mockUserDB.get(1).setId(2);
     }
 
     @Override
@@ -36,15 +38,25 @@ public class UserServiceImpl implements UserService{
             System.out.println("Error in Services");
            return new ArrayList<>();
         }
-
     }
 
-
+    @Override
+    public User addUser(User newUser) {
+        mockUserDB.add(newUser);
+        return newUser;
+    }
 
     @Override
-    public String deleteById(){
-        System.out.println("Deleted user");
-        return "";
+    public String deleteById(Integer id){
+
+        List<User> updatedUserDB = new ArrayList<>();
+        for (User user : mockUserDB) {
+            if (user.getId() != id) {
+                updatedUserDB.add(user);
+            }
+        }
+        mockUserDB = updatedUserDB;
+        return "Updated list";
     }
 
     @Override
@@ -62,6 +74,7 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+
     public void updateById(User userToBeChanged, User userFromDB) {
         userFromDB.setEmail(userToBeChanged.getEmail());
         userFromDB.setPassword(userToBeChanged.getPassword());
@@ -70,10 +83,12 @@ public class UserServiceImpl implements UserService{
         System.out.println("user updated");
     }
 
+    //getting single user by id
     public User findbyId(Integer id) {
         for(User u : mockUserDB) {
             if(u.getId() == id) return u;
         }
         return null;
     }
+
 }
