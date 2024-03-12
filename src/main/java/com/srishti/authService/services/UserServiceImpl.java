@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -14,9 +16,9 @@ public class UserServiceImpl implements UserService{
     List<User> mockUserDB;
     public UserServiceImpl() {
 
-        mockUserDB = new ArrayList<>();
+        this.mockUserDB = new ArrayList<>();
 
-        mockUserDB.addAll(
+        this.mockUserDB.addAll(
                 Arrays.asList(
                         new User[]{
                                 new User("Srishti", "overthinker420", "srishtinegi1718@gmail.com", "hairaanAatma69"),
@@ -24,15 +26,15 @@ public class UserServiceImpl implements UserService{
                             }
                         )
         );
-        mockUserDB.get(0).setId(1);
-        mockUserDB.get(1).setId(2);
+        this.mockUserDB.get(0).setId(1);
+        this.mockUserDB.get(1).setId(2);
     }
 
     @Override
     public List<User> getAllUsers(){
         try{
             System.out.println("Reached in Services");
-            return mockUserDB;
+            return this.mockUserDB;
         }
         catch(Exception e){
             System.out.println("Error in Services");
@@ -42,27 +44,22 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User addUser(User newUser) {
-        mockUserDB.add(newUser);
+        this.mockUserDB.add(newUser);
         return newUser;
     }
 
     @Override
     public String deleteById(Integer id){
-
-        List<User> updatedUserDB = new ArrayList<>();
-        for (User user : mockUserDB) {
-            if (user.getId() != id) {
-                updatedUserDB.add(user);
-            }
-        }
-        mockUserDB = updatedUserDB;
+        this.mockUserDB = this.mockUserDB.stream()
+                .filter(user -> Objects.equals(user.getId(), id))
+                .collect(Collectors.toList());
         return "Updated list";
     }
 
     @Override
     public void UpdateUser(Integer id, User userToBeChanged) {
         try {
-            User userFromDB = findbyId(id);
+            User userFromDB = findById(id);
             if(userFromDB == null) {
                 System.out.println("id not found error");
                return;
@@ -84,9 +81,9 @@ public class UserServiceImpl implements UserService{
     }
 
     //getting single user by id
-    public User findbyId(Integer id) {
-        for(User u : mockUserDB) {
-            if(u.getId() == id) return u;
+    public User findById(Integer id) {
+        for(User u : this.mockUserDB) {
+            if(Objects.equals(u.getId(), id)) return u;
         }
         return null;
     }
