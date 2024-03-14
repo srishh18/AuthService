@@ -17,8 +17,9 @@ public class UserController {
     @GetMapping("/user")
     public List<User> getUsers(){
         try{
-            List<User> userServiceResponse = this.userService.getAllUsers();
-            return userServiceResponse;
+            List<User> list = this.userService.getAllUsers();
+            System.out.println("Reaching in service");
+            return list;
         }
         catch(Exception e){
             return new ArrayList<>();
