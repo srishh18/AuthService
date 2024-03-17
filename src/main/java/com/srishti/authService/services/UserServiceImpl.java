@@ -5,9 +5,8 @@ import com.srishti.authService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -16,50 +15,68 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
-//    List<User> mockUserDB;
-//    public UserServiceImpl() {
-//
-//        mockUserDB = new ArrayList<>();
-//
-//        mockUserDB.addAll(
-//                Arrays.asList(
-//                        new User[]{
-//                                new User("Srishti", "overthinker420", "srishtinegi1718@gmail.com", "hairaanAatma69"),
-//                                new User("Punit", "supersharma", "punit420@gmail.com", "hairaanAatma69")
-//                            }
-//                        )
-//        );
-//        mockUserDB.get(0).setId(1);
-//        mockUserDB.get(1).setId(2);
-//    }
-
     @Override
     public List<User> getAllUsers(){
 
-        List<User> list = this.userRepository.findAll();
-        return list;
+        try{
+            List<User> list = this.userRepository.findAll();
+            return list;
+        }
+        catch(Exception e){
+            System.out.println("Cannot get all users");
+            return null;
+        }
 
+    }
+
+    public Optional<User> getUserById(Integer id){
+
+        try {
+            Optional<User> user = this.userRepository.findById(id);
+            return user;
+        }
+        catch(Exception e){
+            System.out.println("The user you requested does not exist!");
+            return null;
+        }
     }
 
     @Override
     public User addUser(User user) {
-        User newUser = userRepository.save(user);
-        return newUser;
+        try {
+            User newUser = userRepository.save(user);
+            return newUser;
+        }
+        catch(Exception e){
+            System.out.println("The user cannot be added");
+            return user;
+        }
+
     }
 
     @Override
     public String deleteById(Integer id){
-
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        }
+        catch(Exception e){
+            System.out.println("User cannot be deleted");
+        }
         return null;
 
     }
 
     @Override
-    public void UpdateUser(Integer id, User userToBeChanged) {
-
+    public User UpdateUser(Integer id, User userToBeChanged) {
         userToBeChanged.setId(id);
-        userRepository.save(userToBeChanged);
+
+        try{
+            userRepository.save(userToBeChanged);
+        }
+        catch(Exception e){
+            System.out.println("Cannot update user");
+        }
+        return userToBeChanged;
     }
 
 }

@@ -18,7 +18,6 @@ public class User {
     String password;
 
     public User() {
-        super();
     }
 
     public Integer getId() {
