@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -17,12 +18,27 @@ public class UserController {
     @GetMapping("/user")
     public List<User> getUsers(){
         try{
-            List<User> userServiceResponse = this.userService.getAllUsers();
-            return userServiceResponse;
+            List<User> list = this.userService.getAllUsers();
+            System.out.println("Reaching in service");
+            return list;
         }
         catch(Exception e){
             return new ArrayList<>();
         }
+    }
+
+    @GetMapping("/user/{id}")
+    public Optional <User> getUser(@PathVariable("id") Integer id) {
+        Optional<User> user = null;
+        try {
+            user = this.userService.getUserById(id);
+            System.out.println("Getting user by id");
+            return user;
+        } catch (Exception e) {
+
+        }
+        return user;
+
     }
 
 

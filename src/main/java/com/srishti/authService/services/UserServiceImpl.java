@@ -1,18 +1,23 @@
 package com.srishti.authService.services;
 
 import com.srishti.authService.entities.User;
+import com.srishti.authService.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Objects;
 import java.util.stream.Collectors;
+=======
+import java.util.Optional;
+>>>>>>> database-feature
 
 
 @Service
 public class UserServiceImpl implements UserService{
 
+<<<<<<< HEAD
     List<User> mockUserDB;
     public UserServiceImpl() {
 
@@ -29,27 +34,64 @@ public class UserServiceImpl implements UserService{
         this.mockUserDB.get(0).setId(1);
         this.mockUserDB.get(1).setId(2);
     }
+=======
+    @Autowired
+    private UserRepository userRepository;
+>>>>>>> database-feature
 
     @Override
     public List<User> getAllUsers(){
+
         try{
+<<<<<<< HEAD
             System.out.println("Reached in Services");
             return this.mockUserDB;
+=======
+            List<User> list = this.userRepository.findAll();
+            return list;
+>>>>>>> database-feature
         }
         catch(Exception e){
-            System.out.println("Error in Services");
-           return new ArrayList<>();
+            System.out.println("Cannot get all users");
+            return null;
+        }
+
+    }
+
+    public Optional<User> getUserById(Integer id){
+
+        try {
+            Optional<User> user = this.userRepository.findById(id);
+            return user;
+        }
+        catch(Exception e){
+            System.out.println("The user you requested does not exist!");
+            return null;
         }
     }
 
     @Override
+<<<<<<< HEAD
     public User addUser(User newUser) {
         this.mockUserDB.add(newUser);
         return newUser;
+=======
+    public User addUser(User user) {
+        try {
+            User newUser = userRepository.save(user);
+            return newUser;
+        }
+        catch(Exception e){
+            System.out.println("The user cannot be added");
+            return user;
+        }
+
+>>>>>>> database-feature
     }
 
     @Override
     public String deleteById(Integer id){
+<<<<<<< HEAD
         this.mockUserDB = this.mockUserDB.stream()
                 .filter(user -> Objects.equals(user.getId(), id))
                 .collect(Collectors.toList());
@@ -65,10 +107,26 @@ public class UserServiceImpl implements UserService{
                return;
             }
             updateById(userToBeChanged, userFromDB);
-
-        } catch (Exception e) {
-            System.out.println("error in user-service");
+=======
+        try {
+            userRepository.deleteById(id);
         }
+        catch(Exception e){
+            System.out.println("User cannot be deleted");
+        }
+        return null;
+
+    }
+
+    @Override
+    public User UpdateUser(Integer id, User userToBeChanged) {
+        userToBeChanged.setId(id);
+>>>>>>> database-feature
+
+        try{
+            userRepository.save(userToBeChanged);
+        }
+<<<<<<< HEAD
     }
 
 
@@ -84,8 +142,12 @@ public class UserServiceImpl implements UserService{
     public User findById(Integer id) {
         for(User u : this.mockUserDB) {
             if(Objects.equals(u.getId(), id)) return u;
+=======
+        catch(Exception e){
+            System.out.println("Cannot update user");
+>>>>>>> database-feature
         }
-        return null;
+        return userToBeChanged;
     }
 
 }

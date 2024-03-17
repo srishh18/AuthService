@@ -17,6 +17,9 @@ public class User {
     @Column(nullable = false)
     String password;
 
+    public User() {
+    }
+
     public Integer getId() {
         return id;
     }
